@@ -1,3 +1,6 @@
 ---
 - name: Get ping response
-  ping:
+  hosts: all
+  tasks:
+    - name: Get ping response
+      ping:
