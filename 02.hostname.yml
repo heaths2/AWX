@@ -4,4 +4,4 @@
   tasks:
     - name: Get hostname response
       file:
-      path: /proc/sys/kernel/hostname
+        path: /proc/sys/kernel/hostname
