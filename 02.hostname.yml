@@ -1,0 +1,7 @@
+---
+- name: Get hostname response
+  hosts: all
+  tasks:
+    - name: Get hostname response
+      file:
+      path: /proc/sys/kernel/hostname
