@@ -1,0 +1,7 @@
+---
+- name: Get disk space response
+  hosts: all
+  tasks:
+    - name: Get disk space response
+      assert:
+        that: (ansible_mounts|selectattr("mount", "equalto", "/")|list)[0].size_available > need_space
