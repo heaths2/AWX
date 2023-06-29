@@ -8,13 +8,8 @@
         - /
         - /tmp
         - /home
-      register: disk_freespace
-      vars:
-        item_path: "{{ item }}"
+      register: freespace
     
     - fail:
-        msg: "{{ item_path }} does not have the minimum space required to continue (1Gb requested)."
-      when: disk_freespace.results[ansible_loop.index0].stdout | float < 1048576
-      loop: "{{ disk_freespace.results }}"
-      loop_control:
-        loop_var: item
+        msg: "{{ item }} does not have the minimum space required to continue (1Gb requested)."
+      when: freespace.stdout|float is lt < 1048576
