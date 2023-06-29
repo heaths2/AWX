@@ -11,5 +11,8 @@
       register: freespace
     
     - fail:
-        msg: "{{ item }} does not have the minimum space required to continue (1Gb requested)."
-      when: freespace.results[ansible_loop.index0].stdout_lines[0]|float < 1048576
+        msg: "{{ item.item }} does not have the minimum space required to continue (1Gb requested)."
+      when: item.stdout_lines[0] | float < 1048576
+      loop: "{{ freespace.results }}"
+      loop_control:
+        loop_var: item
