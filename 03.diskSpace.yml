@@ -12,4 +12,4 @@
     
     - fail:
         msg: "{{ item }} does not have the minimum space required to continue (1Gb requested)."
-      when: freespace.stdout|float is lt < 1048576
+      when: freespace.results[ansible_loop.index0].stdout_lines[0]|float is lt < 1048576
