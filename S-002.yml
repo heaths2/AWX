@@ -1,18 +1,41 @@
 ---
-- name: Get disk space response
+- name: Cisco
   hosts: all
+  gather_facts: true
   tasks:
-    - name: Get disk space response
-      shell: df "{{ item }}" --output=avail | tail -1
-      loop:
-        - /
-        - /tmp
-        - /home
-      register: freespace
-    
-    - fail:
-        msg: "{{ item.item }} does not have the minimum space required to continue (1Gb requested)."
-      when: item.stdout_lines[0] | float < 1048576
-      loop: "{{ freespace.results }}"
-      loop_control:
-        loop_var: item
+    - ansible.builtin.debug:
+        var: ansible_facts
+
+    - name: Check if device is Cisco Switch or Ubuntu server
+      ansible.builtin.debug:
+        msg: >
+          {{
+            'This is a Cisco Switch running IOS.' if inventory_hostname != 'swt'
+            else 'This is a Linux server running Ubuntu.'
+          }}
+
+    - name: Gather IOS Facts 02
+      cisco.ios.ios_facts:
+        gather_subset: all
+      register: all_subset
+
+    - name: Print Subset All 03
+      ansible.builtin.debug:
+        var: all_subset
+
+    - name: Gather HW
+      cisco.ios.ios_facts:
+        gather_subset: hardware
+      register: hw
+    - name: Print HW
+      ansible.builtin.debug:
+        var: hw
+
+    - name: Gather Int
+      cisco.ios.ios_facts:
+        gather_subset: interfaces
+      register: int
+      
+    - name: Print Interfaces
+      ansible.builtin.debug:
+        var: int
