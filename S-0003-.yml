@@ -3,16 +3,8 @@
   hosts: all
   gather_facts: true
   tasks:
-    - ansible.builtin.debug:
+    - debug:
         var: ansible_facts
-
-    - name: Check if device is Cisco Switch or Ubuntu server
-      ansible.builtin.debug:
-        msg: >
-          {{
-            'This is a Cisco Switch running IOS.' if inventory_hostname != 'swt'
-            else 'This is a Linux server running Ubuntu.'
-          }}
 
     - name: Gather IOS Facts 02
       cisco.ios.ios_facts:
